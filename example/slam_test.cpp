@@ -190,7 +190,6 @@ void zmz_slam::process()
        else
         {
             std::cout<<"Posegraph not accept Keyframes"<<endl;
-
         }
         //   cv::imshow("last",posegraph.keyframes.back().rgb);
             //   cv::waitKey(1);

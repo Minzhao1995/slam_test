@@ -3,6 +3,7 @@
 
 #include "slamBase.h"
 #include "pose_graph.hpp"
+#include <octomap/octomap.h>
 class Mapping
 {
 public:

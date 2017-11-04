@@ -32,3 +32,9 @@ libviso_zmz
     ${OpenCV_LIBS}
     ${PCL_LIBRARIES}
     g2o_core g2o_types_slam3d g2o_solver_csparse g2o_stuff g2o_csparse_extension ${CSPARSE_LIBRARY} ${catkin_LIBRARIES})
+ADD_EXECUTABLE( stereo vo_test.cpp )
+TARGET_LINK_LIBRARIES( stereo
+
+    ${OpenCV_LIBS}
+    ${PCL_LIBRARIES}
+    g2o_core g2o_types_slam3d g2o_solver_csparse g2o_stuff g2o_csparse_extension ${CSPARSE_LIBRARY} ${catkin_LIBRARIES})

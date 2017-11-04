@@ -28,6 +28,13 @@ INCLUDE_DIRECTORIES( ${G2O_INCLUDE_DIR} ${CSPARSE_INCLUDE_DIR} )
 ADD_EXECUTABLE( slamtest slam_test.cpp )
 TARGET_LINK_LIBRARIES( slamtest
     slambase
+libviso_zmz
+    ${OpenCV_LIBS}
+    ${PCL_LIBRARIES}
+    g2o_core g2o_types_slam3d g2o_solver_csparse g2o_stuff g2o_csparse_extension ${CSPARSE_LIBRARY} ${catkin_LIBRARIES})
+ADD_EXECUTABLE( stereo vo_test.cpp )
+TARGET_LINK_LIBRARIES( stereo
+    slambase
     ${OpenCV_LIBS}
     ${PCL_LIBRARIES}
     g2o_core g2o_types_slam3d g2o_solver_csparse g2o_stuff g2o_csparse_extension ${CSPARSE_LIBRARY} ${catkin_LIBRARIES})

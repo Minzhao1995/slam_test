@@ -7,6 +7,9 @@ include_directories(include ${catkin_INCLUDE_DIRS})
 find_package(Boost REQUIRED COMPONENTS date_time thread)
 find_package(catkin REQUIRED COMPONENTS message_generation rostime roscpp rosconsole roscpp_serialization sensor_msgs cv_bridge  image_transport pcl_conversions pcl_ros)
 
+FIND_PACKAGE( octomap REQUIRED )
+INCLUDE_DIRECTORIES( ${OCTOMAP_INCLUDE_DIRS} )
+
 # 增加opencv的依赖
 FIND_PACKAGE( OpenCV REQUIRED )
 
@@ -28,7 +31,8 @@ INCLUDE_DIRECTORIES( ${G2O_INCLUDE_DIR} ${CSPARSE_INCLUDE_DIR} )
 ADD_LIBRARY( slambase SHARED slamBase.cpp tracking.cpp vo.cpp mapping.cpp pose_graph.cpp frame.cpp)
 TARGET_LINK_LIBRARIES( slambase
    ${OpenCV_LIBS}
- ${PCL_LIBRARIES} )
+ ${PCL_LIBRARIES}
+ ${OCTOMAP_LIBRARIES})
 
 #ADD_EXECUTABLE( sender sender.cpp )
 #TARGET_LINK_LIBRARIES( sender

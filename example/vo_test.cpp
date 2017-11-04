@@ -13,7 +13,7 @@ void Frame::StereoToDepth(const cv::Mat& src_left, const cv::Mat& src_right, cv:
   src_left.copyTo(imgLeft);
   src_right.copyTo(imgRight);
 
-  float baseline=atof(pd.getData("baseline").c_str());
+  float baseline=120;
   if(baseline <1)
   {
     cout<<"Stereo camera parameters error!"<<endl;
@@ -101,16 +101,22 @@ int main( int argc, char** argv )
 
     cv::Mat left;
     cv::Mat right;
-    left=cv::imread("11.png",0);
-    right=cv::imread("22.png",0);
-   cv::Mat left1=cv::imread("11.png");
+    cv::Mat src;
+    src=cv::imread("1.png",1);
+    cv::Mat cut;
+    cut=src(cv::Rect(0, 0, 1280, 720));//cv::imread("11.png",0);
 
+   left=cut.clone();
+   cv::Mat left1= left.clone();   //cv::imread("11.png");
+    cut=src(cv::Rect(1280, 0, 1280, 720));
+    right=cut.clone();
     cv::Mat depth;
     Frame frame;
-
+       cv::imshow("left",left);
+              cv::imshow("right",right);
     frame.StereoToDepth(left,right,depth);
-
-      PointCloud::Ptr cloud ( new PointCloud );
+       cv::imshow("depth",depth);
+      /*PointCloud::Ptr cloud ( new PointCloud );
            cloud= image2PointCloud(  left1,  depth,  frame.camera );
 
 
@@ -119,7 +125,7 @@ int main( int argc, char** argv )
                // 清除数据并退出
                cloud->points.clear();
                cout<<"Point cloud saved."<<endl;
-               cv::imshow("depth",depth);
+*/
   cv::waitKey(0);
 
 }

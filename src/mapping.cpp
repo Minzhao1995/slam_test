@@ -49,6 +49,7 @@ void Mapping::viewer()
         posegraph.mainloop();
 
 
+        octomap::OcTree tree( 0.05 ); //全局map
 
         // 拼接点云地图
         cout<<"saving the point cloud map..."<<endl;
@@ -77,10 +78,23 @@ void Mapping::viewer()
             pass.filter( *newCloud );
             // 把点云变换后加入全局地图中
             pcl::transformPointCloud( *newCloud, *tmp, posegraph.keyframes[i].T_global.matrix() );
-            *output += *tmp;
-            tmp->clear();
-            newCloud->clear();
+             *output += *tmp;
+
+            cout<<"octomap is going to add a new cloud :"<<i<<endl;
+            //octomap
+            octomap::Pointcloud cloud_octo;
+             for (auto p:tmp->points)
+              cloud_octo.push_back( p.x, p.y, p.z );
+
+              tree.insertPointCloud( cloud_octo,
+            octomap::point3d(posegraph.keyframes[i].T_global(0,3), posegraph.keyframes[i].T_global(1,3), posegraph.keyframes[i].T_global(2,3) ) );
+
+
+             tmp->clear();
+             newCloud->clear();
         }
+        tree.updateInnerOccupancy();
+        tree.write( "map.ot" );
         posegraph.SetAcceptKeyFrames(true);
         voxel.setInputCloud( output );
         voxel.filter( *tmp );
